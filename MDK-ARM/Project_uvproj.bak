@@ -72,13 +72,11 @@
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
-            <nStopB1X>0</nStopB1X>
-            <nStopB2X>0</nStopB2X>
           </BeforeMake>
           <AfterMake>
-            <RunUserProg1>0</RunUserProg1>
+            <RunUserProg1>1</RunUserProg1>
             <RunUserProg2>0</RunUserProg2>
-            <UserProg1Name></UserProg1Name>
+            <UserProg1Name>fromelf.exe --bin -o "$L@L.bin" "#L"</UserProg1Name>
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
@@ -146,7 +144,7 @@
             <UsePdscDebugDescription>1</UsePdscDebugDescription>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>1</TargetSelection>
+          <TargetSelection>6</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -160,7 +158,7 @@
             <PeripheralDll></PeripheralDll>
             <PeripheralDllArguments></PeripheralDllArguments>
             <InitializationFile></InitializationFile>
-            <Driver>BIN\UL2CM3.DLL</Driver>
+            <Driver>Segger\JL2CM3.dll</Driver>
           </TargetDlls>
         </DebugOption>
         <Utilities>
@@ -170,10 +168,10 @@
             <RunIndependent>0</RunIndependent>
             <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
             <Capability>1</Capability>
-            <DriverSelection>4096</DriverSelection>
+            <DriverSelection>4099</DriverSelection>
           </Flash1>
           <bUseTDR>0</bUseTDR>
-          <Flash2>BIN\UL2CM3.DLL</Flash2>
+          <Flash2>Segger\JL2CM3.dll</Flash2>
           <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
@@ -364,7 +362,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER,USE_STM322xG_EVAL,STM32F2XX</Define>
               <Undefine></Undefine>
-              <IncludePath>..\inc;..\..\..\Libraries\CMSIS\CM3\CoreSupport;..\..\..\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F2xx;..\..\..\Utilities\STM32_EVAL;..\..\..\Utilities\STM32_EVAL\Common;..\..\..\Utilities\STM32_EVAL\STM322xG_EVAL;..\..\..\Libraries\STM32F2xx_StdPeriph_Driver\inc</IncludePath>
+              <IncludePath>..\Bsp;..\Bsp\Common;..\Bsp\PDA;..\Bsp\STM322xG_EVAL;..\Libraries\CMSIS\CM3\CoreSupport;..\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F2xx;..\Libraries\STM32F2xx_StdPeriph_Driver\inc;..\User</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -405,102 +403,12 @@
       </TargetOption>
       <Groups>
         <Group>
-          <GroupName>User</GroupName>
+          <GroupName>Startup</GroupName>
           <Files>
             <File>
-              <FileName>ymodem.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\ymodem.c</FilePath>
-            </File>
-            <File>
-              <FileName>common.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\common.c</FilePath>
-            </File>
-            <File>
-              <FileName>flash_if.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\flash_if.c</FilePath>
-            </File>
-            <File>
-              <FileName>main.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\main.c</FilePath>
-            </File>
-            <File>
-              <FileName>menu.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\menu.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f2xx_it.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\stm32f2xx_it.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>STM32_EVAL</GroupName>
-          <Files>
-            <File>
-              <FileName>stm32_eval.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Utilities\STM32_EVAL\stm32_eval.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>STM32F2xx_StdPeriph_Driver</GroupName>
-          <Files>
-            <File>
-              <FileName>misc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Libraries\STM32F2xx_StdPeriph_Driver\src\misc.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f2xx_exti.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Libraries\STM32F2xx_StdPeriph_Driver\src\stm32f2xx_exti.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f2xx_flash.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Libraries\STM32F2xx_StdPeriph_Driver\src\stm32f2xx_flash.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f2xx_gpio.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Libraries\STM32F2xx_StdPeriph_Driver\src\stm32f2xx_gpio.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f2xx_rcc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Libraries\STM32F2xx_StdPeriph_Driver\src\stm32f2xx_rcc.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f2xx_syscfg.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Libraries\STM32F2xx_StdPeriph_Driver\src\stm32f2xx_syscfg.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f2xx_usart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Libraries\STM32F2xx_StdPeriph_Driver\src\stm32f2xx_usart.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f2xx_dma.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\LIBRARIES\STM32F2xx_StdPeriph_Driver\src\stm32f2xx_dma.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f2xx_i2c.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\LIBRARIES\STM32F2xx_StdPeriph_Driver\src\stm32f2xx_i2c.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f2xx_sdio.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\LIBRARIES\STM32F2xx_StdPeriph_Driver\src\stm32f2xx_sdio.c</FilePath>
+              <FileName>startup_stm32f2xx.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\startup_stm32f2xx.s</FilePath>
             </File>
           </Files>
         </Group>
@@ -510,22 +418,112 @@
             <File>
               <FileName>system_stm32f2xx.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\src\system_stm32f2xx.c</FilePath>
+              <FilePath>..\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F2xx\system_stm32f2xx.c</FilePath>
             </File>
             <File>
               <FileName>core_cm3.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\LIBRARIES\CMSIS\CM3\CoreSupport\core_cm3.c</FilePath>
+              <FilePath>..\Libraries\CMSIS\CM3\CoreSupport\core_cm3.c</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>MDK-ARM</GroupName>
+          <GroupName>StdPeriph_Driver</GroupName>
           <Files>
             <File>
-              <FileName>startup_stm32f2xx.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>.\startup_stm32f2xx.s</FilePath>
+              <FileName>misc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Libraries\STM32F2xx_StdPeriph_Driver\src\misc.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f2xx_dma.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Libraries\STM32F2xx_StdPeriph_Driver\src\stm32f2xx_dma.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f2xx_exti.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Libraries\STM32F2xx_StdPeriph_Driver\src\stm32f2xx_exti.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f2xx_flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Libraries\STM32F2xx_StdPeriph_Driver\src\stm32f2xx_flash.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f2xx_gpio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Libraries\STM32F2xx_StdPeriph_Driver\src\stm32f2xx_gpio.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f2xx_i2c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Libraries\STM32F2xx_StdPeriph_Driver\src\stm32f2xx_i2c.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f2xx_rcc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Libraries\STM32F2xx_StdPeriph_Driver\src\stm32f2xx_rcc.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f2xx_sdio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Libraries\STM32F2xx_StdPeriph_Driver\src\stm32f2xx_sdio.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f2xx_syscfg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Libraries\STM32F2xx_StdPeriph_Driver\src\stm32f2xx_syscfg.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f2xx_usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Libraries\STM32F2xx_StdPeriph_Driver\src\stm32f2xx_usart.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Bsp</GroupName>
+          <Files>
+            <File>
+              <FileName>stm32_eval.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Bsp\stm32_eval.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>User</GroupName>
+          <Files>
+            <File>
+              <FileName>common.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\common.c</FilePath>
+            </File>
+            <File>
+              <FileName>flash_if.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\flash_if.c</FilePath>
+            </File>
+            <File>
+              <FileName>main.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\main.c</FilePath>
+            </File>
+            <File>
+              <FileName>menu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\menu.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f2xx_it.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\stm32f2xx_it.c</FilePath>
+            </File>
+            <File>
+              <FileName>ymodem.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\ymodem.c</FilePath>
             </File>
           </Files>
         </Group>

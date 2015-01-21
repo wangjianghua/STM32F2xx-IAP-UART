@@ -8,9 +8,15 @@
 *.map
 *.pbd
 
+# Precompiled Headers
+*.gch
+*.pch
+
 # Libraries
 *.lib
 *.a
+*.la
+*.lo
 
 # Shared objects (inc. Windows DLLs)
 *.dll
@@ -33,6 +39,13 @@
 
 SI/
 
+Debug/
+
+Exe/
+
+List/
+
+Obj/
 Listing/
 
 Output/
