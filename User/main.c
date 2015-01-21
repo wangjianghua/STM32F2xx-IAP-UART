@@ -19,6 +19,20 @@
   ******************************************************************************
   */ 
 
+/** 
+ * @file     main.c
+ * @brief    STM32F2xx-IAP-UART
+ * @details  STM32F2xx in-application programming using the USART (AN3374)
+ * @author   华兄
+ * @email    591881218@qq.com
+ * @date     2015
+ * @version  vX.XX
+ * @par Copyright (c):  
+ *           华兄电子
+ * @par History:          
+ *   version: author, date, desc\n 
+ */  
+
 /** @addtogroup STM32F2xx_IAP
   * @{
   */
@@ -49,10 +63,16 @@ int  main(void)
   /* Unlock the Flash Program Erase controller */
   FLASH_If_Init();
 
-  /* Initialize Key Button mounted on STM3220G-EVAL board */
+  /* Initialize Leds mounted on STM32_PDA_EVAL board */
+  STM_EVAL_LEDInit(LED2);
+
+  /* Initialize Key Button mounted on STM32_PDA_EVAL board */
   STM_EVAL_PBInit(BUTTON_KEY, BUTTON_MODE_GPIO);
 
-  /* Test if Key push-button on STM3220G-EVAL Board is pressed */
+  /* Turn off LED2 */
+  STM_EVAL_LEDOff(LED2); 
+
+  /* Test if Key push-button on STM32_PDA_EVAL Board is pressed */
   if (RESET == STM_EVAL_PBGetState(BUTTON_KEY))
   { 
     /* Execute the IAP driver in order to reprogram the Flash */
