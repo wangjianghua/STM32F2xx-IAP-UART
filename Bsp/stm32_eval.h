@@ -180,6 +180,9 @@ typedef enum
 #elif defined USE_STM322xG_EVAL
  #include "stm32f2xx.h"
  #include "stm322xg_eval/stm322xg_eval.h"
+#elif defined USE_STM32_PDA_EVAL //ЛЊаж
+ #include "stm32f2xx.h"
+ #include "stm32_pda_eval/stm32_pda_eval.h" 
 #else 
  #error "Please select first the STM32 EVAL board to be used (in stm32_eval.h)"
 #endif                      

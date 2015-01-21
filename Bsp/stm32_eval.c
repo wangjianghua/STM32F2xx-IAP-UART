@@ -55,6 +55,8 @@
  #include "stm322xg_eval/stm322xg_eval.c"
 #elif defined USE_STM32100E_EVAL
  #include "stm32100e_eval/stm32100e_eval.c"
+#elif defined USE_STM32_PDA_EVAL //ЛЊаж
+ #include "stm32_pda_eval/stm32_pda_eval.c"
 #else 
  #error "Please select first the STM32 EVAL board to be used (in stm32_eval.h)"
 #endif
