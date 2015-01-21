@@ -35,7 +35,7 @@ extern pFunction Jump_To_Application;
 extern uint32_t JumpAddress;
 
 /* Private function prototypes -----------------------------------------------*/
-static void IAP_Init(void);
+static void IAP_Init(uint32_t BaudRate);
 
 /* Private functions ---------------------------------------------------------*/
 
@@ -44,7 +44,7 @@ static void IAP_Init(void);
   * @param  None
   * @retval None
   */
-int main(void)
+int  main(void)
 {
   /* Unlock the Flash Program Erase controller */
   FLASH_If_Init();
@@ -53,12 +53,12 @@ int main(void)
   STM_EVAL_PBInit(BUTTON_KEY, BUTTON_MODE_GPIO);
 
   /* Test if Key push-button on STM3220G-EVAL Board is pressed */
-  if (STM_EVAL_PBGetState(BUTTON_KEY) == 0x00)
+  if (RESET == STM_EVAL_PBGetState(BUTTON_KEY))
   { 
     /* Execute the IAP driver in order to reprogram the Flash */
-    IAP_Init();
+    IAP_Init(115200); /* Default BaudRate: 115200bps */
     /* Display main menu */
-    Main_Menu ();
+    Main_Menu();
   }
   /* Keep the user application running */
   else
@@ -84,7 +84,7 @@ int main(void)
   * @param  None
   * @retval None
   */
-void IAP_Init(void)
+static void IAP_Init(uint32_t BaudRate)
 {
  USART_InitTypeDef USART_InitStructure;
 
@@ -97,7 +97,7 @@ void IAP_Init(void)
         - Hardware flow control disabled (RTS and CTS signals)
         - Receive and transmit enabled
   */
-  USART_InitStructure.USART_BaudRate = 115200;
+  USART_InitStructure.USART_BaudRate = BaudRate;
   USART_InitStructure.USART_WordLength = USART_WordLength_8b;
   USART_InitStructure.USART_StopBits = USART_StopBits_1;
   USART_InitStructure.USART_Parity = USART_Parity_No;
