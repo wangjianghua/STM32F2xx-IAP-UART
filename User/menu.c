@@ -135,7 +135,7 @@ void Main_Menu(void)
   uint8_t key = 0;
 
   SerialPutString("\r\n===================================================================");
-  SerialPutString("\r\n=              (C) COPYRIGHT 2010 STMicroelectronics              =");
+  SerialPutString("\r\n=              (C) COPYRIGHT 2011 STMicroelectronics              =");
   SerialPutString("\r\n=                                                                 =");
   SerialPutString("\r\n=     In-Application Programming Application  (Version 1.0.0)     =");
   SerialPutString("\r\n=                                                                 =");

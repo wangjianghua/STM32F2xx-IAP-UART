@@ -63,20 +63,27 @@ int  main(void)
   /* Unlock the Flash Program Erase controller */
   FLASH_If_Init();
 
+  /* Setup SysTick Timer for 1 msec interrupts */
+  if (SysTick_Config(SystemCoreClock / 1000))
+  { 
+    /* Capture error */ 
+    while (1);
+  }
+
   /* Initialize Leds mounted on STM32_PDA_EVAL board */
-  STM_EVAL_LEDInit(LED2);
+  STM_EVAL_LEDInit(LED_UART);
 
   /* Initialize Key Button mounted on STM32_PDA_EVAL board */
-  STM_EVAL_PBInit(BUTTON_KEY, BUTTON_MODE_GPIO);
+  STM_EVAL_PBInit(BUTTON_KEY, BUTTON_MODE_EXTI);
 
-  /* Turn off LED2 */
-  STM_EVAL_LEDOff(LED2); 
+  /* Turn off UART's LED */
+  STM_EVAL_LEDOff(LED_UART); 
 
   /* Test if Key push-button on STM32_PDA_EVAL Board is pressed */
   if (RESET == STM_EVAL_PBGetState(BUTTON_KEY))
   { 
     /* Execute the IAP driver in order to reprogram the Flash */
-    IAP_Init(115200); /* Default BaudRate: 115200bps */
+    IAP_Init(UART_BAUD_RATE); /* Default BaudRate: 115200bps */
     /* Display main menu */
     Main_Menu();
   }

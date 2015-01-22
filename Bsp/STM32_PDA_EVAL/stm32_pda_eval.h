@@ -80,6 +80,8 @@
 #define LED4_GPIO_PORT                   GPIOC
 #define LED4_GPIO_CLK                    RCC_AHB1Periph_GPIOC
 
+#define LED_UART                         LED2
+
 /**
   * @}
   */ 
@@ -148,6 +150,8 @@
 #define EVAL_COM1_RX_SOURCE              GPIO_PinSource11
 #define EVAL_COM1_RX_AF                  GPIO_AF_UART4
 #define EVAL_COM1_IRQn                   UART4_IRQn
+
+#define UART_BAUD_RATE                   115200u
 
 /**
   * @}
@@ -287,6 +291,7 @@ uint32_t SD_DMAEndOfTransferStatus(void);
 void sEE_LowLevel_DeInit(void);
 void sEE_LowLevel_Init(void); 
 void sEE_LowLevel_DMAConfig(uint32_t pBuffer, uint32_t BufferSize, uint32_t Direction);
+void STM32_SoftReset(void);
 /**
   * @}
   */

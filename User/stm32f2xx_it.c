@@ -23,6 +23,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f2xx_it.h"
+#include "stm32_eval.h"
 
 /** @addtogroup STM32F2xx_IAP
   * @{
@@ -32,6 +33,7 @@
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
+static uint32_t Key_Press_Timeout = 0;
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 
@@ -134,6 +136,34 @@ void PendSV_Handler(void)
   */
 void SysTick_Handler(void)
 {
+  if (Key_Press_Timeout)
+  {
+    Key_Press_Timeout--;
+
+    if (!Key_Press_Timeout)
+    {
+      if (RESET == STM_EVAL_PBGetState(BUTTON_KEY)) 
+      {
+        STM32_SoftReset();
+      }
+    }
+  }
+}
+
+/**
+  * @brief  This function handles External lines 15 to 10 interrupt request.
+  * @param  None
+  * @retval None
+  */
+void EXTI15_10_IRQHandler(void)
+{
+  if (RESET != EXTI_GetITStatus(EXTI_Line11))
+  {
+    Key_Press_Timeout = 3000;
+        
+    /* Clear the EXTI line 11 pending bit */
+    EXTI_ClearITPendingBit(EXTI_Line11);
+  }
 }
 
 /******************************************************************************/
