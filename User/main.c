@@ -50,6 +50,7 @@ extern uint32_t JumpAddress;
 
 /* Private function prototypes -----------------------------------------------*/
 static void IAP_Init(uint32_t BaudRate);
+static uint32_t IAP_FlagCheck(void);
 
 /* Private functions ---------------------------------------------------------*/
 
@@ -63,24 +64,14 @@ int  main(void)
   /* Unlock the Flash Program Erase controller */
   FLASH_If_Init();
 
-  /* Setup SysTick Timer for 1 msec interrupts */
-  if (SysTick_Config(SystemCoreClock / 1000))
-  { 
-    /* Capture error */ 
-    while (1);
-  }
-
   /* Initialize Leds mounted on STM32_PDA_EVAL board */
   STM_EVAL_LEDInit(LED_UART);
-
-  /* Initialize Key Button mounted on STM32_PDA_EVAL board */
-  STM_EVAL_PBInit(BUTTON_KEY, BUTTON_MODE_EXTI);
 
   /* Turn off UART's LED */
   STM_EVAL_LEDOff(LED_UART); 
 
-  /* Test if Key push-button on STM32_PDA_EVAL Board is pressed */
-  if (RESET == STM_EVAL_PBGetState(BUTTON_KEY))
+  /* 检测应用程序参数保存区升级标志 */
+  if (0 == IAP_FlagCheck())
   { 
     /* Execute the IAP driver in order to reprogram the Flash */
     IAP_Init(UART_BAUD_RATE); /* Default BaudRate: 115200bps */
@@ -133,6 +124,94 @@ static void IAP_Init(uint32_t BaudRate)
 
   STM_EVAL_COMInit(COM1, &USART_InitStructure);
 }
+
+// ---------------------------------------------------------
+
+unsigned int calccrc(unsigned char crcbuf,unsigned int crc)
+{
+    unsigned char i, chk;
+
+    
+    crc=crc ^ crcbuf;
+    
+    for(i=0;i<8;i++)
+    {        
+        chk=crc&1;
+        crc=crc>>1;
+        crc=crc&0x7fff;
+        if (chk==1)
+            crc=crc^0xa001;
+        crc=crc&0xffff;
+    }
+    
+    return crc;
+}
+
+unsigned int Get_checksum(unsigned char *buf, unsigned short len)
+{
+    unsigned char hi,lo; 
+    unsigned int i; 
+    unsigned int crc; 
+
+    
+    crc=0xFFFF; 
+    for (i=0;i<len;i++) 
+    { 
+        crc=calccrc(*buf,crc); 
+        buf++; 
+    } 
+    hi=crc%256; 
+    lo=crc/256; 
+    crc=(hi<<8)|lo; 
+    
+    return crc; 
+}
+
+// ---------------------------------------------------------
+
+static uint32_t IAP_FlagCheck(void)
+{ 
+  uint16_t len;
+  uint32_t *p_prm;
+  uint32_t crc, addr, data;
+  uint32_t n = APPLICATION_PRM_COUNT;
+
+    
+  while(n)
+  {
+    n--;
+
+    p_prm = (uint32_t *)(APPLICATION_PRM_ADDRESS + n * APPLICATION_PRM_SIZE);
+
+    if(APPLICATION_PRM_TAG == p_prm[0])
+    {
+      crc = Get_checksum((uint8_t *)&p_prm[3], (uint16_t)(APPLICATION_PRM_SIZE - 12));
+
+      if(crc == p_prm[2])
+      {
+        addr = APPLICATION_PRM_ADDRESS + n * APPLICATION_PRM_SIZE + IAP_FLAG_OFFSET;
+        data = IAP_FLAG_FINISH;
+        len = 1;
+        
+        if(IAP_FLAG_REQUEST == *(uint32_t *)addr)
+        {       
+          /* 清除应用程序参数保存区升级标志 */
+          FLASH_If_Write((uint32_t *)&addr, (uint32_t *)&data, len);
+
+          return (0);
+        }
+        else
+        {
+          break;
+        }
+      }
+    }
+  }
+
+  return (1);
+}
+
+// ---------------------------------------------------------
 
 #ifdef USE_FULL_ASSERT
 /**

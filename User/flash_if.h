@@ -49,7 +49,26 @@
 
 /* Define the address from where user application will be loaded.
    Note: the 1st sector 0x08000000-0x08003FFF is reserved for the IAP code */
-#define APPLICATION_ADDRESS   (uint32_t)0x08004000 
+#define APPLICATION_ADDRESS      (uint32_t)0x08008000 
+
+/* 应用程序参数保存区 */
+#define APPLICATION_PRM_ADDRESS  (uint32_t)0x08004000
+
+/* 应用程序参数标签 */
+#define APPLICATION_PRM_TAG      (uint32_t)0xDA3C7B92
+
+/* 应用程序参数大小 */
+#define APPLICATION_PRM_SIZE     (1024 * 2)
+
+/* 应用程序参数总个数 */
+#define APPLICATION_PRM_COUNT    (16 / 2)
+
+/* IAP标志偏移量 */
+#define IAP_FLAG_OFFSET          (4)
+
+/* IAP请求与结束标志 */
+#define IAP_FLAG_REQUEST         (uint32_t)0xFFFFBBCC
+#define IAP_FLAG_FINISH          (uint32_t)0xFFFF0000
 
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
