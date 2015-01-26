@@ -1,3 +1,2 @@
-## STM32F2xx-IAP-UART
-
-IAP for PDA based on STM32F207
+# STM32F2xx-IAP-UART
+IAP for PDA based on STM32F207, MDK-ARM v4.74
