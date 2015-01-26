@@ -127,44 +127,54 @@ static void IAP_Init(uint32_t BaudRate)
 
 // ---------------------------------------------------------
 
-unsigned int calccrc(unsigned char crcbuf,unsigned int crc)
+unsigned int CalcCRC(unsigned char *buf, unsigned int crc)
 {
     unsigned char i, chk;
 
     
-    crc=crc ^ crcbuf;
+    crc = crc ^ *buf;
     
-    for(i=0;i<8;i++)
+    for(i = 0; i < 8; i++)
     {        
-        chk=crc&1;
-        crc=crc>>1;
-        crc=crc&0x7fff;
-        if (chk==1)
-            crc=crc^0xa001;
-        crc=crc&0xffff;
+        chk = crc & 1;
+        
+        crc = crc >> 1;
+        
+        crc = crc & 0x7fff;
+        
+        if(1 == chk)
+        {
+            crc = crc ^ 0xa001;
+        }
+        
+        crc = crc & 0xffff;
     }
     
-    return crc;
+    return (crc);
 }
 
-unsigned int Get_checksum(unsigned char *buf, unsigned short len)
+unsigned int Get_Checksum(unsigned char *buf, unsigned short len)
 {
-    unsigned char hi,lo; 
-    unsigned int i; 
-    unsigned int crc; 
+    unsigned char *ptr;
+    unsigned char high, low; 
+    unsigned int i, crc;  
 
+
+    ptr = buf;
+    crc = 0xffff; 
     
-    crc=0xFFFF; 
-    for (i=0;i<len;i++) 
+    for(i = 0; i < len; i++) 
     { 
-        crc=calccrc(*buf,crc); 
-        buf++; 
+        crc = CalcCRC(ptr, crc); 
+        
+        ptr++; 
     } 
-    hi=crc%256; 
-    lo=crc/256; 
-    crc=(hi<<8)|lo; 
     
-    return crc; 
+    high = crc % 256; 
+    low = crc / 256; 
+    crc = (high << 8) | low; 
+    
+    return (crc); 
 }
 
 // ---------------------------------------------------------
@@ -173,8 +183,7 @@ static uint32_t IAP_FlagCheck(void)
 { 
   uint16_t len;
   uint32_t *p_prm;
-  uint32_t crc, addr, data;
-  uint32_t n = APPLICATION_PRM_COUNT;
+  uint32_t crc, addr, data, n = APPLICATION_PRM_COUNT;
 
     
   while(n)
@@ -185,7 +194,7 @@ static uint32_t IAP_FlagCheck(void)
 
     if(APPLICATION_PRM_TAG == p_prm[0])
     {
-      crc = Get_checksum((uint8_t *)&p_prm[3], (uint16_t)(APPLICATION_PRM_SIZE - 12));
+      crc = Get_Checksum((uint8_t *)&p_prm[3], (uint16_t)(APPLICATION_PRM_SIZE - 12));
 
       if(crc == p_prm[2])
       {

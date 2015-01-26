@@ -51,7 +51,7 @@
    Note: the 1st sector 0x08000000-0x08003FFF is reserved for the IAP code */
 #define APPLICATION_ADDRESS      (uint32_t)0x08008000 
 
-/* 应用程序参数保存区 */
+/* 应用程序参数保存地址 */
 #define APPLICATION_PRM_ADDRESS  (uint32_t)0x08004000
 
 /* 应用程序参数标签 */

@@ -144,7 +144,7 @@ void SysTick_Handler(void)
     {
       if (RESET == STM_EVAL_PBGetState(BUTTON_KEY)) 
       {
-        //STM32_SoftReset();
+        /* STM32_SoftReset(); */
       }
     }
   }
