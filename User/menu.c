@@ -88,6 +88,10 @@ void SerialDownload(void)
   {
     SerialPutString("\r\n\nAborted by user.\n\r");
   }
+  else if (Size == -4)
+  {
+    SerialPutString("\r\n\nReceive the file timeout!\n\r");
+  }  
   else
   {
     SerialPutString("\n\n\rFailed to receive the file!\n\r");

@@ -140,11 +140,14 @@ static int32_t Receive_Packet (uint8_t *data, int32_t *length, uint32_t timeout)
 int32_t Ymodem_Receive (uint8_t *buf)
 {
   uint8_t packet_data[PACKET_1K_SIZE + PACKET_OVERHEAD], file_size[FILE_SIZE_LENGTH], *file_ptr, *buf_ptr;
-  int32_t i, packet_length, session_done, file_done, packets_received, errors, session_begin, size = 0;
+  int32_t i, packet_length, session_done, file_done, packets_received, errors, wait_time, session_begin, size = 0;
   uint32_t flashdestination, ramsource;
 
   /* Initialize flashdestination variable */
   flashdestination = APPLICATION_ADDRESS;
+
+  /* Initialize wait_time variable */
+  wait_time = MAX_WAIT_TIME;
 
   for (session_done = 0, errors = 0, session_begin = 0; ;)
   {
@@ -247,11 +250,19 @@ int32_t Ymodem_Receive (uint8_t *buf)
           {
             errors ++;
           }
+          else
+          {
+            wait_time --;
+          }
           if (errors > MAX_ERRORS)
           {
             Send_Byte(CA);
             Send_Byte(CA);
             return 0;
+          }
+          if (0 == wait_time)
+          {
+            return -4;
           }
           Send_Byte(CRC16);
           break;
