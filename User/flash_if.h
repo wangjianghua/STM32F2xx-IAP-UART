@@ -26,6 +26,9 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f2xx.h"
 
+/* Private variables ---------------------------------------------------------*/
+typedef  void (*pFunction)(void);
+
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 /* Base address of the Flash sectors */
@@ -77,6 +80,7 @@ uint32_t FLASH_If_Erase(uint32_t StartSector);
 uint32_t FLASH_If_Write(__IO uint32_t* FlashAddress, uint32_t* Data, uint16_t DataLength);
 uint16_t FLASH_If_GetWriteProtectionStatus(void);
 uint32_t FLASH_If_DisableWriteProtection(void);
+void FLASH_If_JumpToApplication(void);
 
 #endif  /* __FLASH_IF_H */
 

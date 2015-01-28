@@ -25,6 +25,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "flash_if.h"
+#include "common.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -230,6 +231,32 @@ static uint32_t GetSector(uint32_t Address)
     sector = FLASH_Sector_11;  
   }
     return sector;
+}
+
+/**
+  * @brief  Jump to application
+  * @param  None
+  * @retval None
+  */
+void FLASH_If_JumpToApplication(void)
+{
+  pFunction Jump_To_Application;
+  uint32_t JumpAddress;   
+  
+  /* Test if user code is programmed starting from address "APPLICATION_ADDRESS" */
+  if (((*(__IO uint32_t*)APPLICATION_ADDRESS) & 0x2FFE0000 ) == 0x20000000)
+  { 
+    /* Jump to user application */
+    JumpAddress = *(__IO uint32_t*) (APPLICATION_ADDRESS + 4);
+    Jump_To_Application = (pFunction) JumpAddress;
+    /* Initialize user application's Stack Pointer */
+    __set_MSP(*(__IO uint32_t*) APPLICATION_ADDRESS);
+    Jump_To_Application();
+  }
+  else
+  {
+    SerialPutString("Jump to application error!\r\n");
+  }
 }
 
 /**

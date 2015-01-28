@@ -39,8 +39,6 @@
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-pFunction Jump_To_Application;
-uint32_t JumpAddress;
 __IO uint32_t FlashProtection = 0;
 uint8_t tab_1024[1024] =
   {
@@ -188,12 +186,7 @@ void Main_Menu(void)
     }
     else if (key == 0x33) /* execute the new program */
     {
-      JumpAddress = *(__IO uint32_t*) (APPLICATION_ADDRESS + 4);
-      /* Jump to user application */
-      Jump_To_Application = (pFunction) JumpAddress;
-      /* Initialize user application's Stack Pointer */
-      __set_MSP(*(__IO uint32_t*) APPLICATION_ADDRESS);
-      Jump_To_Application();
+      FLASH_If_JumpToApplication();
     }
     else if ((key == 0x34) && (FlashProtection == 1))
     {

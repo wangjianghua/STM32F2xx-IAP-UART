@@ -39,15 +39,13 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "menu.h"
+#include "flash_if.h"
 #include "stm32_eval.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-extern pFunction Jump_To_Application;
-extern uint32_t JumpAddress;
-
 /* Private function prototypes -----------------------------------------------*/
 static void IAP_Init(uint32_t BaudRate);
 static uint32_t IAP_FlagCheck(void);
@@ -85,16 +83,7 @@ int  main(void)
   /* Keep the user application running */
   else
   {
-    /* Test if user code is programmed starting from address "APPLICATION_ADDRESS" */
-    if (((*(__IO uint32_t*)APPLICATION_ADDRESS) & 0x2FFE0000 ) == 0x20000000)
-    { 
-      /* Jump to user application */
-      JumpAddress = *(__IO uint32_t*) (APPLICATION_ADDRESS + 4);
-      Jump_To_Application = (pFunction) JumpAddress;
-      /* Initialize user application's Stack Pointer */
-      __set_MSP(*(__IO uint32_t*) APPLICATION_ADDRESS);
-      Jump_To_Application();
-    }
+    FLASH_If_JumpToApplication();
   }
 
   while (1)
