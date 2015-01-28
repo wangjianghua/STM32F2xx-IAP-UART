@@ -255,8 +255,11 @@ void FLASH_If_JumpToApplication(void)
   }
   else
   {
-    SerialPutString("Jump to application error!\r\n");
+    SerialPutString("Jump to application error!\r\n");    
   }
+  
+  while (1)
+  {}
 }
 
 /**

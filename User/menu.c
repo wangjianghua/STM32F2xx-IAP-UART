@@ -52,6 +52,7 @@ void SerialUpload(void);
 
 /* Private functions ---------------------------------------------------------*/
 
+#if 0
 /**
   * @brief  Download a file via serial port
   * @param  None
@@ -95,6 +96,55 @@ void SerialDownload(void)
     SerialPutString("\n\n\rFailed to receive the file!\n\r");
   }
 }
+#else
+/**
+  * @brief  Download a file via serial port
+  * @param  None
+  * @retval None
+  */
+void SerialDownload(void)
+{
+  uint8_t Number[10] = "          ";
+  int32_t Size = 0;
+
+  SerialPutString("Waiting for the file to be sent, within 30 seconds ... (press 'a' to restart)\n\n\r");
+  Size = Ymodem_Receive(&tab_1024[0]);
+  if (Size > 0)
+  {
+    SerialPutString("\n\n\r Programming Completed Successfully!\n\r--------------------------------\r\n Name: ");
+    SerialPutString(FileName);
+    Int2Str(Number, Size);
+    SerialPutString("\n\r Size: ");
+    SerialPutString(Number);
+    SerialPutString(" Bytes\r\n");
+    SerialPutString("--------------------------------\n");
+
+    /* Execute the new program */
+    FLASH_If_JumpToApplication();
+  }
+  else if (Size == -1)
+  {
+    SerialPutString("\n\n\rThe image size is higher than the allowed space memory!\n\r");
+  }
+  else if (Size == -2)
+  {
+    SerialPutString("\n\n\rVerification failed!\n\r");
+  }
+  else if (Size == -3)
+  {
+    SerialPutString("\r\n\nRestart by user.\n\r");
+  }
+  else if (Size == -4)
+  {
+    SerialPutString("\r\n\nReceive the file timeout!\n\r");
+    FLASH_If_JumpToApplication();
+  }  
+  else
+  {
+    SerialPutString("\n\n\rFailed to receive the file!\n\r");
+  }
+}
+#endif
 
 /**
   * @brief  Upload a file via serial port.
@@ -127,6 +177,7 @@ void SerialUpload(void)
   }  
 }
 
+#if 0
 /**
   * @brief  Display the Main Menu on HyperTerminal
   * @param  None
@@ -222,6 +273,59 @@ void Main_Menu(void)
     }
   }
 }
+#else
+/**
+  * @brief  Display the Main Menu on HyperTerminal
+  * @param  None
+  * @retval None
+  */
+void Main_Menu(void)
+{
+  /* Test if any sector of Flash memory where user application will be loaded is write protected */
+  if (FLASH_If_GetWriteProtectionStatus() == 0)   
+  {
+    FlashProtection = 1;
+  }
+  else
+  {
+    FlashProtection = 0;
+  }
+
+  while (1)
+  {
+    if(FlashProtection != 0)
+    {
+      /* Disable the write protection */
+      switch (FLASH_If_DisableWriteProtection())
+      {
+        case 1:
+        {
+          SerialPutString("Write Protection disabled ...\r\n");
+          FlashProtection = 0;
+          break;
+        }
+        case 2:
+        {
+          SerialPutString("Error: Flash write unprotection failed ...\r\n");
+          FLASH_If_JumpToApplication();
+          break;
+        }
+        default:
+        {
+          SerialPutString("Flash memory where user application will be loaded is write protected ...\r\n");  
+          FLASH_If_JumpToApplication();
+          break;
+        }
+      }        
+    }
+    else
+    {
+      /* Download user application in the Flash */
+      SerialDownload();
+    }
+  }
+}
+#endif
 
 /**
   * @}
