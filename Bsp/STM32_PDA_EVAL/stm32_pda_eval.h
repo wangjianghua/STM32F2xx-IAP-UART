@@ -76,11 +76,12 @@
 #define LED3_GPIO_PORT                   GPIOI
 #define LED3_GPIO_CLK                    RCC_AHB1Periph_GPIOI  
   
-#define LED4_PIN                         GPIO_Pin_7
+#define LED4_PIN                         GPIO_Pin_13
 #define LED4_GPIO_PORT                   GPIOC
 #define LED4_GPIO_CLK                    RCC_AHB1Periph_GPIOC
 
 #define LED_UART                         LED2
+#define LED_PWR                          LED4
 
 /**
   * @}
