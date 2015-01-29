@@ -23,7 +23,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f2xx_it.h"
-#include "stm32_eval.h"
+#include "common.h"
 
 /** @addtogroup STM32F2xx_IAP
   * @{

@@ -55,6 +55,7 @@ uint8_t GetKey(void);
 void SerialPutChar(uint8_t c);
 void Serial_PutString(uint8_t *s);
 void GetInputString(uint8_t * buffP);
+void STM32_SoftReset(void);
 
 #endif  /* __COMMON_H */
 

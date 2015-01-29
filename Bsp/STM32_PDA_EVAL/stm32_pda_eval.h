@@ -292,7 +292,6 @@ uint32_t SD_DMAEndOfTransferStatus(void);
 void sEE_LowLevel_DeInit(void);
 void sEE_LowLevel_Init(void); 
 void sEE_LowLevel_DMAConfig(uint32_t pBuffer, uint32_t BufferSize, uint32_t Direction);
-void STM32_SoftReset(void);
 /**
   * @}
   */

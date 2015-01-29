@@ -300,6 +300,18 @@ void GetInputString (uint8_t * buffP)
 }
 
 /**
+  * @brief  STM32 soft reset
+  * @param  None
+  * @retval None
+  */
+void STM32_SoftReset(void)
+{
+  __set_FAULTMASK(SET);
+    
+  NVIC_SystemReset();
+}
+
+/**
   * @}
   */
 
