@@ -110,8 +110,12 @@ static int32_t Receive_Packet (uint8_t *data, int32_t *length, uint32_t timeout)
       {
         return -1;
       }
+    /*
     case ABORT1:
     case ABORT2:
+    */
+    case RESTART1:
+    case RESTART2:
       return 1;
     default:
       return -1;

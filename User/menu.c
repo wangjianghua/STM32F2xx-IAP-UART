@@ -107,7 +107,7 @@ void SerialDownload(void)
   uint8_t Number[10] = "          ";
   int32_t Size = 0;
 
-  SerialPutString("Waiting for the file to be sent, within 30 seconds ... (press 'a' to restart)\n\n\r");
+  SerialPutString("Waiting for the file to be sent, within 30 seconds ... (press 'r' to restart)\n\n\r");
   Size = Ymodem_Receive(&tab_1024[0]);
   if (Size > 0)
   {

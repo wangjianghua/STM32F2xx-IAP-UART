@@ -51,6 +51,9 @@
 #define ABORT1                  (0x41)  /* 'A' == 0x41, abort by user */
 #define ABORT2                  (0x61)  /* 'a' == 0x61, abort by user */
 
+#define RESTART1                (0x52)  /* 'R' == 0x52, restart by user */
+#define RESTART2                (0x72)  /* 'r' == 0x72, restart by user */
+
 #define NAK_TIMEOUT             (0x100000)
 #define MAX_ERRORS              (5)
 

@@ -76,6 +76,7 @@ typedef  void (*pFunction)(void);
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 void FLASH_If_Init(void);
+void FLASH_If_DeInit(void);
 uint32_t FLASH_If_Erase(uint32_t StartSector);
 uint32_t FLASH_If_Write(__IO uint32_t* FlashAddress, uint32_t* Data, uint16_t DataLength);
 uint16_t FLASH_If_GetWriteProtectionStatus(void);

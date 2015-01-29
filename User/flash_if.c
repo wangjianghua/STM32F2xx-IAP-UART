@@ -51,6 +51,20 @@ void FLASH_If_Init(void)
 }
 
 /**
+  * @brief  Locks Flash for write access
+  * @param  None
+  * @retval None
+  */
+void FLASH_If_DeInit(void)
+{ 
+  FLASH_Lock(); 
+
+  /* Clear pending flags (if any) */  
+  FLASH_ClearFlag(FLASH_FLAG_EOP | FLASH_FLAG_OPERR | FLASH_FLAG_WRPERR | 
+                  FLASH_FLAG_PGAERR | FLASH_FLAG_PGPERR|FLASH_FLAG_PGSERR);
+}
+
+/**
   * @brief  This function does an erase of all user flash area
   * @param  StartSector: start of user flash area
   * @retval 0: user flash area successfully erased
@@ -242,6 +256,9 @@ void FLASH_If_JumpToApplication(void)
 {
   pFunction Jump_To_Application;
   uint32_t JumpAddress;   
+
+  /* Lock the Flash Program Erase controller */
+  FLASH_If_DeInit();
   
   /* Test if user code is programmed starting from address "APPLICATION_ADDRESS" */
   if (((*(__IO uint32_t*)APPLICATION_ADDRESS) & 0x2FFE0000 ) == 0x20000000)
