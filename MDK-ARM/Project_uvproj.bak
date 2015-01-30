@@ -360,7 +360,7 @@
             <useXO>0</useXO>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>USE_STDPERIPH_DRIVER,USE_STM322xG_EVAL,STM32F2XX</Define>
+              <Define>USE_STDPERIPH_DRIVER,STM32F2XX,USE_STM32_PDA_EVAL</Define>
               <Undefine></Undefine>
               <IncludePath>..\Bsp;..\Bsp\Common;..\Bsp\STM32_PDA_EVAL;..\Bsp\STM322xG_EVAL;..\Libraries\CMSIS\CM3\CoreSupport;..\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F2xx;..\Libraries\STM32F2xx_StdPeriph_Driver\inc;..\User</IncludePath>
             </VariousControls>

@@ -264,10 +264,10 @@ void FLASH_If_JumpToApplication(void)
   if (((*(__IO uint32_t*)APPLICATION_ADDRESS) & 0x2FFE0000 ) == 0x20000000)
   { 
     /* Jump to user application */
-    JumpAddress = *(__IO uint32_t*) (APPLICATION_ADDRESS + 4);
+    JumpAddress = *(__IO uint32_t*)(APPLICATION_ADDRESS + 4);
     Jump_To_Application = (pFunction) JumpAddress;
     /* Initialize user application's Stack Pointer */
-    __set_MSP(*(__IO uint32_t*) APPLICATION_ADDRESS);
+    __set_MSP(*(__IO uint32_t*)APPLICATION_ADDRESS);
     Jump_To_Application();
   }
   else

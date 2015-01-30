@@ -166,7 +166,7 @@ uint32_t GetIntegerInput(int32_t * num)
     if (inputstr[0] == '\0') continue;
     if ((inputstr[0] == 'a' || inputstr[0] == 'A') && inputstr[1] == '\0')
     {
-      SerialPutString("User Cancelled \r\n");
+      SerialPutString("User Cancelled\r\n");
       return 0;
     }
 

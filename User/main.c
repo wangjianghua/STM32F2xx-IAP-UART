@@ -97,7 +97,7 @@ int  main(void)
   */
 static void IAP_Init(uint32_t BaudRate)
 {
- USART_InitTypeDef USART_InitStructure;
+  USART_InitTypeDef USART_InitStructure;
 
   /* USART resources configuration (Clock, GPIO pins and USART registers) ----*/
   /* USART configured as follow:
