@@ -66,17 +66,21 @@ int  main(void)
   STM_EVAL_LEDInit(LED_PWR);
   STM_EVAL_LEDInit(LED_UART);
 
-  /* Turn on PWR's LED */
-  STM_EVAL_LEDOn(LED_PWR);
+  /* Turn off PWR's LED */
+  STM_EVAL_LEDOff(LED_PWR);
 
   /* Turn off UART's LED */
   STM_EVAL_LEDOff(LED_UART); 
 
   /* 检测应用程序参数保存区升级标志 */
   if (0 == IAP_FlagCheck())
-  { 
+  {
+    /* Turn on PWR's LED */
+    STM_EVAL_LEDOn(LED_PWR);
+    
     /* Execute the IAP driver in order to reprogram the Flash */
     IAP_Init(UART_BAUD_RATE); /* Default BaudRate: 115200bps */
+    
     /* Display main menu */
     Main_Menu();
   }
