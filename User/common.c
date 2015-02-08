@@ -25,11 +25,14 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "common.h"
+#include "flash_if.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
+static uint32_t IAP_FlagAddr = 0;
+
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 
@@ -310,6 +313,147 @@ void STM32_SoftReset(void)
     
   NVIC_SystemReset();
 }
+
+/**
+  * @brief  Initialize the IAP: Configure USART
+  * @param  None
+  * @retval None
+  */
+void IAP_Init(uint32_t BaudRate)
+{
+  USART_InitTypeDef USART_InitStructure;
+
+  /* USART resources configuration (Clock, GPIO pins and USART registers) ----*/
+  /* USART configured as follow:
+        - BaudRate = BaudRate  
+        - Word Length = 8 Bits
+        - One Stop Bit
+        - No parity
+        - Hardware flow control disabled (RTS and CTS signals)
+        - Receive and transmit enabled
+  */
+  USART_InitStructure.USART_BaudRate = BaudRate;
+  USART_InitStructure.USART_WordLength = USART_WordLength_8b;
+  USART_InitStructure.USART_StopBits = USART_StopBits_1;
+  USART_InitStructure.USART_Parity = USART_Parity_No;
+  USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
+  USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
+
+  STM_EVAL_COMInit(COM1, &USART_InitStructure);
+}
+
+// ---------------------------------------------------------
+
+unsigned int CalcCRC(unsigned char *buf, unsigned int crc)
+{
+    unsigned char i, chk;
+
+    
+    crc = crc ^ *buf;
+    
+    for(i = 0; i < 8; i++)
+    {        
+        chk = crc & 1;
+        
+        crc = crc >> 1;
+        
+        crc = crc & 0x7fff;
+        
+        if(1 == chk)
+        {
+            crc = crc ^ 0xa001;
+        }
+        
+        crc = crc & 0xffff;
+    }
+    
+    return (crc);
+}
+
+unsigned int Get_Checksum(unsigned char *buf, unsigned short len)
+{
+    unsigned char *ptr;
+    unsigned char high, low; 
+    unsigned int i, crc;  
+
+
+    ptr = buf;
+    crc = 0xffff; 
+    
+    for(i = 0; i < len; i++) 
+    { 
+        crc = CalcCRC(ptr, crc); 
+        
+        ptr++; 
+    } 
+    
+    high = crc % 256; 
+    low = crc / 256; 
+    crc = (high << 8) | low; 
+    
+    return (crc); 
+}
+
+// ---------------------------------------------------------
+
+uint32_t IAP_FlagCheck(void)
+{ 
+  uint32_t *p_prm;
+  uint32_t crc, addr, n = APPLICATION_PRM_COUNT;
+
+    
+  while(n)
+  {
+    n--;
+
+    p_prm = (uint32_t *)(APPLICATION_PRM_ADDRESS + n * APPLICATION_PRM_SIZE);
+
+    if(APPLICATION_PRM_TAG == p_prm[0])
+    {
+      crc = Get_Checksum((uint8_t *)&p_prm[3], (uint16_t)(APPLICATION_PRM_SIZE - 12));
+
+      if(crc == p_prm[2])
+      {
+        addr = APPLICATION_PRM_ADDRESS + n * APPLICATION_PRM_SIZE + IAP_FLAG_OFFSET;
+        
+        if(IAP_FLAG_REQUEST == *(uint32_t *)addr)
+        {       
+          IAP_FlagAddr = addr;
+          
+          return (0);
+        }
+        else
+        {
+          break;
+        }
+      }
+    }
+  }
+
+  return (1);
+}
+
+// ---------------------------------------------------------
+
+uint32_t IAP_FlagClear(void)
+{
+  uint16_t len;
+  uint32_t addr, data;
+
+
+  if (0 == IAP_FlagAddr)
+  {
+    return (1);
+  }
+
+  addr = IAP_FlagAddr;
+  data = IAP_FLAG_FINISH;
+  len = 1;
+
+  return (FLASH_If_Write((uint32_t *)&addr, (uint32_t *)&data, len));
+}
+
+// ---------------------------------------------------------
 
 /**
   * @}

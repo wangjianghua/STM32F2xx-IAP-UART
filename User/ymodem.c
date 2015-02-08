@@ -35,6 +35,7 @@
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 extern uint8_t FileName[];
+extern uint32_t FlashErased;
 
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
@@ -207,6 +208,8 @@ int32_t Ymodem_Receive (uint8_t *buf)
                       Send_Byte(CA);
                       return -1;
                     }
+                    /* 应用程序所在FLASH被擦除标志置位 */
+                    FlashErased = 1;
                     /* erase user application area */
                     FLASH_If_Erase(APPLICATION_ADDRESS);
                     Send_Byte(ACK);

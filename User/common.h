@@ -56,6 +56,9 @@ void SerialPutChar(uint8_t c);
 void Serial_PutString(uint8_t *s);
 void GetInputString(uint8_t * buffP);
 void STM32_SoftReset(void);
+void IAP_Init(uint32_t BaudRate);
+uint32_t IAP_FlagCheck(void);
+uint32_t IAP_FlagClear(void);
 
 #endif  /* __COMMON_H */
 

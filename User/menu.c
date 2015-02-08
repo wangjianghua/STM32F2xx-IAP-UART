@@ -45,6 +45,7 @@ uint8_t tab_1024[1024] =
     0
   };
 uint8_t FileName[FILE_NAME_LENGTH];
+uint32_t FlashErased = 0;
 
 /* Private function prototypes -----------------------------------------------*/
 void SerialDownload(void);
@@ -119,6 +120,9 @@ void SerialDownload(void)
     SerialPutString(" Bytes\r\n");
     SerialPutString("--------------------------------\n");
 
+    /* 清除应用程序参数保存区升级标志 */
+    IAP_FlagClear();
+
     /* Execute the new program */
     FLASH_If_JumpToApplication();
   }
@@ -137,6 +141,13 @@ void SerialDownload(void)
   else if (Size == -4)
   {
     SerialPutString("\r\n\nReceive the file timeout!\n\r");
+
+    if (0 == FlashErased)
+    {
+      /* 清除应用程序参数保存区升级标志 */
+      IAP_FlagClear(); 
+    }   
+    
     FLASH_If_JumpToApplication();
   }  
   else
@@ -293,7 +304,7 @@ void Main_Menu(void)
 
   while (1)
   {
-    if(FlashProtection != 0)
+    if (FlashProtection != 0)
     {
       /* Disable the write protection */
       switch (FLASH_If_DisableWriteProtection())
@@ -307,12 +318,26 @@ void Main_Menu(void)
         case 2:
         {
           SerialPutString("Error: Flash write unprotection failed ...\r\n");
+          
+          if (0 == FlashErased)
+          {
+            /* 清除应用程序参数保存区升级标志 */
+            IAP_FlagClear(); 
+          }          
+          
           FLASH_If_JumpToApplication();
           break;
         }
         default:
         {
           SerialPutString("Flash memory where user application will be loaded is write protected ...\r\n");  
+
+          if (0 == FlashErased)
+          {
+            /* 清除应用程序参数保存区升级标志 */
+            IAP_FlagClear(); 
+          } 
+
           FLASH_If_JumpToApplication();
           break;
         }
