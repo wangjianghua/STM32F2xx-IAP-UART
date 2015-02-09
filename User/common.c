@@ -346,52 +346,52 @@ void IAP_Init(uint32_t BaudRate)
 
 unsigned int CalcCRC(unsigned char *buf, unsigned int crc)
 {
-    unsigned char i, chk;
+  unsigned char i, chk;
 
     
-    crc = crc ^ *buf;
+  crc = crc ^ *buf;
     
-    for(i = 0; i < 8; i++)
-    {        
-        chk = crc & 1;
+  for(i = 0; i < 8; i++)
+  {        
+    chk = crc & 1;
         
-        crc = crc >> 1;
+    crc = crc >> 1;
         
-        crc = crc & 0x7fff;
+    crc = crc & 0x7fff;
         
-        if(1 == chk)
-        {
-            crc = crc ^ 0xa001;
-        }
-        
-        crc = crc & 0xffff;
+    if(1 == chk)
+    {
+      crc = crc ^ 0xa001;
     }
+        
+    crc = crc & 0xffff;
+  }
     
-    return (crc);
+  return (crc);
 }
 
 unsigned int Get_Checksum(unsigned char *buf, unsigned short len)
 {
-    unsigned char *ptr;
-    unsigned char high, low; 
-    unsigned int i, crc;  
+  unsigned char *ptr;
+  unsigned char high, low; 
+  unsigned int i, crc;  
 
 
-    ptr = buf;
-    crc = 0xffff; 
+  ptr = buf;
+  crc = 0xffff; 
     
-    for(i = 0; i < len; i++) 
-    { 
-        crc = CalcCRC(ptr, crc); 
+  for(i = 0; i < len; i++) 
+  { 
+    crc = CalcCRC(ptr, crc); 
         
-        ptr++; 
-    } 
+    ptr++; 
+  } 
     
-    high = crc % 256; 
-    low = crc / 256; 
-    crc = (high << 8) | low; 
+  high = crc % 256; 
+  low = crc / 256; 
+  crc = (high << 8) | low; 
     
-    return (crc); 
+  return (crc); 
 }
 
 // ---------------------------------------------------------
@@ -424,6 +424,8 @@ uint32_t IAP_FlagCheck(void)
         }
         else
         {
+          IAP_FlagAddr = 0;
+          
           break;
         }
       }
@@ -432,8 +434,6 @@ uint32_t IAP_FlagCheck(void)
 
   return (1);
 }
-
-// ---------------------------------------------------------
 
 uint32_t IAP_FlagClear(void)
 {
@@ -453,7 +453,16 @@ uint32_t IAP_FlagClear(void)
   return (FLASH_If_Write((uint32_t *)&addr, (uint32_t *)&data, len));
 }
 
-// ---------------------------------------------------------
+uint32_t IAP_JumpToApplicationHook(void)
+{
+  uint32_t ret;   
+  
+    
+  /* 清除应用程序参数保存区升级标志 */
+  ret = IAP_FlagClear();
+
+  return (ret);
+}
 
 /**
   * @}

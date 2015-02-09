@@ -437,10 +437,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>1</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>1288</TopLine>
-      <CurrentLine>1294</CurrentLine>
+      <TopLine>1284</TopLine>
+      <CurrentLine>1285</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\Libraries\STM32F2xx_StdPeriph_Driver\src\stm32f2xx_usart.c</PathWithFileName>
       <FilenameWithoutPath>stm32f2xx_usart.c</FilenameWithoutPath>
@@ -487,8 +487,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>217</TopLine>
-      <CurrentLine>223</CurrentLine>
+      <TopLine>193</TopLine>
+      <CurrentLine>194</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\User\common.c</PathWithFileName>
       <FilenameWithoutPath>common.c</FilenameWithoutPath>
@@ -501,10 +501,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>50467524</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>5</CurrentLine>
+      <TopLine>257</TopLine>
+      <CurrentLine>266</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\User\flash_if.c</PathWithFileName>
       <FilenameWithoutPath>flash_if.c</FilenameWithoutPath>
@@ -519,8 +519,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>1</TopLine>
-      <CurrentLine>1</CurrentLine>
+      <TopLine>56</TopLine>
+      <CurrentLine>61</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\User\main.c</PathWithFileName>
       <FilenameWithoutPath>main.c</FilenameWithoutPath>
@@ -565,10 +565,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>50467524</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>5</CurrentLine>
+      <TopLine>47</TopLine>
+      <CurrentLine>52</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\User\ymodem.c</PathWithFileName>
       <FilenameWithoutPath>ymodem.c</FilenameWithoutPath>

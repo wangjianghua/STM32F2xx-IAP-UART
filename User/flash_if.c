@@ -256,13 +256,15 @@ void FLASH_If_JumpToApplication(void)
 {
   pFunction Jump_To_Application;
   uint32_t JumpAddress;   
-
-  /* Lock the Flash Program Erase controller */
-  FLASH_If_DeInit();
   
   /* Test if user code is programmed starting from address "APPLICATION_ADDRESS" */
   if (((*(__IO uint32_t*)APPLICATION_ADDRESS) & 0x2FFE0000 ) == 0x20000000)
   { 
+    IAP_JumpToApplicationHook();
+
+    /* Lock the Flash Program Erase controller */
+    FLASH_If_DeInit();
+    
     /* Jump to user application */
     JumpAddress = *(__IO uint32_t*)(APPLICATION_ADDRESS + 4);
     Jump_To_Application = (pFunction) JumpAddress;
@@ -271,8 +273,11 @@ void FLASH_If_JumpToApplication(void)
     Jump_To_Application();
   }
   else
-  {
-    SerialPutString("Jump to application error!\r\n");    
+  {      
+    /* Lock the Flash Program Erase controller */
+    FLASH_If_DeInit();   
+
+    SerialPutString("Jump to application error!\r\n");
   }
   
   while (1)

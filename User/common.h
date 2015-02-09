@@ -59,6 +59,7 @@ void STM32_SoftReset(void);
 void IAP_Init(uint32_t BaudRate);
 uint32_t IAP_FlagCheck(void);
 uint32_t IAP_FlagClear(void);
+uint32_t IAP_JumpToApplicationHook(void);
 
 #endif  /* __COMMON_H */
 

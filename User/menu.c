@@ -119,10 +119,7 @@ void SerialDownload(void)
     SerialPutString(Number);
     SerialPutString(" Bytes\r\n");
     SerialPutString("--------------------------------\n");
-
-    /* 清除应用程序参数保存区升级标志 */
-    IAP_FlagClear();
-
+    
     /* Execute the new program */
     FLASH_If_JumpToApplication();
   }
@@ -142,13 +139,14 @@ void SerialDownload(void)
   {
     SerialPutString("\r\n\nReceive the file timeout!\n\r");
 
-    if (0 == FlashErased)
+    if (1 == FlashErased)
     {
-      /* 清除应用程序参数保存区升级标志 */
-      IAP_FlagClear(); 
+      SerialPutString("Application is broken, please try to update again ...\r\n"); 
     }   
-    
-    FLASH_If_JumpToApplication();
+    else
+    {
+      FLASH_If_JumpToApplication();
+    }
   }  
   else
   {
@@ -319,26 +317,30 @@ void Main_Menu(void)
         {
           SerialPutString("Error: Flash write unprotection failed ...\r\n");
           
-          if (0 == FlashErased)
+          if (1 == FlashErased)
           {
-            /* 清除应用程序参数保存区升级标志 */
-            IAP_FlagClear(); 
-          }          
-          
-          FLASH_If_JumpToApplication();
+            SerialPutString("Application is broken, please try to update again ...\r\n"); 
+          }   
+          else
+          {
+            FLASH_If_JumpToApplication();
+          }
+
           break;
         }
         default:
         {
           SerialPutString("Flash memory where user application will be loaded is write protected ...\r\n");  
 
-          if (0 == FlashErased)
+          if (1 == FlashErased)
           {
-            /* 清除应用程序参数保存区升级标志 */
-            IAP_FlagClear(); 
-          } 
+            SerialPutString("Application is broken, please try to update again ...\r\n"); 
+          }   
+          else
+          {
+            FLASH_If_JumpToApplication();
+          }
 
-          FLASH_If_JumpToApplication();
           break;
         }
       }        
