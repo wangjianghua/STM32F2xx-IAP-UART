@@ -285,6 +285,30 @@ void FLASH_If_JumpToApplication(void)
 }
 
 /**
+  * @brief  DeInitializes the application
+  * @param  None
+  * @retval 0: application successfully deinitialized
+  *         1: error occurred
+  */
+uint32_t FLASH_If_ApplicationDeInit(void)
+{
+  uint32_t Sector;
+
+  /* Get the sector where start the application msp flash area */
+  Sector = GetSector(APPLICATION_MSP_ADDRESS);
+
+  /* Device voltage range supposed to be [2.7V to 3.6V], the operation will
+     be done by word */ 
+  if (FLASH_EraseSector(Sector, VoltageRange_3) != FLASH_COMPLETE)
+  {
+    /* Error occurred while page erase */
+    return (1);
+  }  
+
+  return (0);
+}
+
+/**
   * @}
   */
 

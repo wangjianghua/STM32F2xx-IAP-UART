@@ -27,7 +27,7 @@
 #include "stm32f2xx.h"
 
 /* Private variables ---------------------------------------------------------*/
-typedef  void (*pFunction)(void);
+typedef void (*pFunction)(void);
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
@@ -46,13 +46,16 @@ typedef  void (*pFunction)(void);
 #define ADDR_FLASH_SECTOR_11    ((uint32_t)0x080E0000) /* Base @ of Sector 11, 128 Kbyte */
 
 /* End of the Flash address */
-#define USER_FLASH_END_ADDRESS        0x080FFFFF
+#define USER_FLASH_END_ADDRESS   (uint32_t)0x080FFFFF
 /* Define the user application size */
-#define USER_FLASH_SIZE   (USER_FLASH_END_ADDRESS - APPLICATION_ADDRESS + 1)
+#define USER_FLASH_SIZE          (USER_FLASH_END_ADDRESS - APPLICATION_ADDRESS + 1)
 
 /* Define the address from where user application will be loaded.
    Note: the 1st sector 0x08000000-0x08003FFF is reserved for the IAP code */
 #define APPLICATION_ADDRESS      (uint32_t)0x08008000 
+
+/* 应用程序MSP初始值保存地址 */
+#define APPLICATION_MSP_ADDRESS  (APPLICATION_ADDRESS)
 
 /* 应用程序参数保存地址 */
 #define APPLICATION_PRM_ADDRESS  (uint32_t)0x08004000
@@ -63,8 +66,8 @@ typedef  void (*pFunction)(void);
 /* 应用程序参数大小 */
 #define APPLICATION_PRM_SIZE     (1024 * 2)
 
-/* 应用程序参数总个数 */
-#define APPLICATION_PRM_COUNT    (16 / 2)
+/* 应用程序参数保存区容量 */
+#define APPLICATION_PRM_CAPACITY (16 / 2)
 
 /* IAP标志偏移量 */
 #define IAP_FLAG_OFFSET          (4)
@@ -82,6 +85,7 @@ uint32_t FLASH_If_Write(__IO uint32_t* FlashAddress, uint32_t* Data, uint16_t Da
 uint16_t FLASH_If_GetWriteProtectionStatus(void);
 uint32_t FLASH_If_DisableWriteProtection(void);
 void FLASH_If_JumpToApplication(void);
+uint32_t FLASH_If_ApplicationDeInit(void);
 
 #endif  /* __FLASH_IF_H */
 

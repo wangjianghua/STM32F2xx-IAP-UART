@@ -399,7 +399,7 @@ unsigned int Get_Checksum(unsigned char *buf, unsigned short len)
 uint32_t IAP_FlagCheck(void)
 { 
   uint32_t *p_prm;
-  uint32_t crc, addr, n = APPLICATION_PRM_COUNT;
+  uint32_t crc, addr, n = APPLICATION_PRM_CAPACITY;
 
     
   while(n)

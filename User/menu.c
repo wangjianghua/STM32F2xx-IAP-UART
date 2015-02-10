@@ -139,11 +139,7 @@ void SerialDownload(void)
   {
     SerialPutString("\r\n\nReceive the file timeout!\n\r");
 
-    if (1 == FlashErased)
-    {
-      SerialPutString("Application is broken, please try to update again ...\r\n"); 
-    }   
-    else
+    if (0 == FlashErased)
     {
       FLASH_If_JumpToApplication();
     }
@@ -152,6 +148,13 @@ void SerialDownload(void)
   {
     SerialPutString("\n\n\rFailed to receive the file!\n\r");
   }
+
+  if (1 == FlashErased)
+  {
+    FLASH_If_ApplicationDeInit();
+    
+    SerialPutString("Application is broken, please try to update again ...\r\n"); 
+  }    
 }
 #endif
 
@@ -319,6 +322,8 @@ void Main_Menu(void)
           
           if (1 == FlashErased)
           {
+            FLASH_If_ApplicationDeInit();
+            
             SerialPutString("Application is broken, please try to update again ...\r\n"); 
           }   
           else
@@ -334,6 +339,8 @@ void Main_Menu(void)
 
           if (1 == FlashErased)
           {
+            FLASH_If_ApplicationDeInit();
+            
             SerialPutString("Application is broken, please try to update again ...\r\n"); 
           }   
           else
