@@ -325,7 +325,7 @@ void IAP_Init(uint32_t BaudRate)
 
   /* USART resources configuration (Clock, GPIO pins and USART registers) ----*/
   /* USART configured as follow:
-        - BaudRate = BaudRate  
+        - BaudRate = BaudRate baud  
         - Word Length = 8 Bits
         - One Stop Bit
         - No parity
