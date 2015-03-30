@@ -59,6 +59,17 @@
   * @{
   */ 
 
+/** @addtogroup STM32_PDA_EVAL_LOW_LEVEL_PWR
+  * @{
+  */
+#define PWR_PIN                          GPIO_Pin_5
+#define PWR_GPIO_PORT                    GPIOB
+#define PWR_GPIO_CLK                     RCC_AHB1Periph_GPIOB  
+
+/**
+  * @}
+  */ 
+
 /** @addtogroup STM32_PDA_EVAL_LOW_LEVEL_LED
   * @{
   */
@@ -277,6 +288,9 @@
 /** @defgroup STM32_PDA_EVAL_LOW_LEVEL_Exported_Functions
   * @{
   */
+void STM_EVAL_PWRInit(void);
+void STM_EVAL_PWROn(void);
+void STM_EVAL_PWROff(void);
 void STM_EVAL_LEDInit(Led_TypeDef Led);
 void STM_EVAL_LEDOn(Led_TypeDef Led);
 void STM_EVAL_LEDOff(Led_TypeDef Led);

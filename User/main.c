@@ -57,6 +57,12 @@
   */
 int  main(void)
 {
+  /* 初始化电源 */
+  STM_EVAL_PWRInit();
+
+  /* 使能电源 */
+  STM_EVAL_PWROn();
+
   /* Unlock the Flash Program Erase controller */
   FLASH_If_Init();
 

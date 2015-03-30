@@ -150,6 +150,47 @@ NVIC_InitTypeDef   NVIC_InitStructure;
 /** @defgroup STM32_PDA_EVAL_LOW_LEVEL_Private_Functions
   * @{
   */ 
+  
+/**
+  * @brief  Configures PWR GPIO.
+  * @param  None
+  * @retval None
+  */
+void STM_EVAL_PWRInit(void)
+{
+  GPIO_InitTypeDef  GPIO_InitStructure;
+  
+  /* Enable the GPIO_PWR Clock */
+  RCC_AHB1PeriphClockCmd(PWR_GPIO_CLK, ENABLE);
+
+  /* Configure the GPIO_PWR pin */
+  GPIO_InitStructure.GPIO_Pin = PWR_PIN;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+  GPIO_Init(PWR_GPIO_PORT, &GPIO_InitStructure);
+}
+
+/**
+  * @brief  Turns PWR On.
+  * @param  None 
+  * @retval None
+  */
+void STM_EVAL_PWROn(void)
+{
+  GPIO_SetBits(PWR_GPIO_PORT, PWR_PIN);
+}
+
+/**
+  * @brief  Turns PWR Off.
+  * @param  None
+  * @retval None
+  */
+void STM_EVAL_PWROff(void)
+{
+  GPIO_ResetBits(PWR_GPIO_PORT, PWR_PIN);    
+}
 
 /**
   * @brief  Configures LED GPIO.

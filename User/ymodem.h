@@ -57,7 +57,7 @@
 #define NAK_TIMEOUT             (0x100000)
 #define MAX_ERRORS              (5)
 
-#define MAX_WAIT_TIME           (90)
+#define MAX_WAIT_TIME           (90 / 2)
 
 /* Exported functions ------------------------------------------------------- */
 int32_t Ymodem_Receive (uint8_t *);

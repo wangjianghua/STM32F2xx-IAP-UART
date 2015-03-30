@@ -264,6 +264,9 @@ void FLASH_If_JumpToApplication(void)
 
     /* Lock the Flash Program Erase controller */
     FLASH_If_DeInit();
+
+    /* 禁能电源 */
+    STM_EVAL_PWROff();
     
     /* Jump to user application */
     JumpAddress = *(__IO uint32_t*)(APPLICATION_ADDRESS + 4);
@@ -278,6 +281,9 @@ void FLASH_If_JumpToApplication(void)
     FLASH_If_DeInit();   
 
     SerialPutString("Jump to application error!\r\n");
+
+    /* 禁能电源 */
+    STM_EVAL_PWROff();    
   }
   
   while (1)
